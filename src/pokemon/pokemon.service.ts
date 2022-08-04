@@ -19,8 +19,7 @@ export class PokemonService {
   async create(createPokemonDto: CreatePokemonDto) {
     createPokemonDto.name = createPokemonDto.name.toLowerCase();
     try {
-      const pokemon = await this.pokemonModel.create(createPokemonDto);
-      return pokemon;
+      return await this.pokemonModel.create(createPokemonDto);
     } catch (error) {
       this.handleExceptions(error, "Can't create Pokemon - Check server logs");
     }
@@ -66,8 +65,13 @@ export class PokemonService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    // return this.pokemonModel.findByIdAndDelete(id);
+    const { deletedCount } = await this.pokemonModel.deleteOne({ _id: id });
+    if (deletedCount === 0)
+      throw new BadRequestException(`Pokemon with ${id} not found`);
+
+    return;
   }
 
   private handleExceptions(error: any, message: string) {

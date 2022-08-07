@@ -33,6 +33,11 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Populate DB in postman
+```bash
+localhost:3000/api/v2/seed
+```
+
 ## Test
 
 ```bash
